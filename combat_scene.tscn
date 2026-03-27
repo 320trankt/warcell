@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dqlpg4iyoeig5"]
+
+[ext_resource type="Script" uid="uid://c2u5gff8pn5iv" path="res://combat_manager.gd" id="1_s1qhn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1qhn"]
+
+[sub_resource type="Skin" id="Skin_ct1co"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lo0hl"]
+
+[node name="CombatScene" type="Node3D" unique_id=1578232915]
+
+[node name="CombatManager" type="Node" parent="." unique_id=15437406]
+script = ExtResource("1_s1qhn")
+
+[node name="Enemy" type="CharacterBody3D" parent="." unique_id=220133960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy" unique_id=49591783]
+mesh = SubResource("CapsuleMesh_s1qhn")
+skin = SubResource("Skin_ct1co")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=1942011333]
+shape = SubResource("CapsuleShape3D_lo0hl")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=442766976]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=538845045]
+transform = Transform3D(1, 0, 0, 0, 0.5006498, 0.86564994, 0, -0.86564994, 0.5006498, 0, 1.6616812, 0.40877557)

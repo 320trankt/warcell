@@ -11,8 +11,19 @@ config_version=5
 [application]
 
 config/name="WarCell"
+run/main_scene="res://combat_scene.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1179
+window/size/viewport_height=2556
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 
