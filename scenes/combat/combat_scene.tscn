@@ -1,24 +1,32 @@
 [gd_scene format=3 uid="uid://dqlpg4iyoeig5"]
 
-[ext_resource type="Script" uid="uid://c2u5gff8pn5iv" path="res://combat_manager.gd" id="1_s1qhn"]
+[ext_resource type="Script" uid="uid://c2u5gff8pn5iv" path="res://scenes/combat/combat_manager.gd" id="1_jecyb"]
+[ext_resource type="Script" uid="uid://bcro452tknj05" path="res://scenes/combat/enemies/base_enemy/base_enemy.gd" id="2_7cuye"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s1qhn"]
 
 [sub_resource type="Skin" id="Skin_ct1co"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyyo7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cl4e"]
+next_pass = SubResource("ShaderMaterial_fyyo7")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lo0hl"]
 
 [node name="CombatScene" type="Node3D" unique_id=1578232915]
 
 [node name="CombatManager" type="Node" parent="." unique_id=15437406]
-script = ExtResource("1_s1qhn")
+script = ExtResource("1_jecyb")
 
 [node name="Enemy" type="CharacterBody3D" parent="." unique_id=220133960]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+script = ExtResource("2_7cuye")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy" unique_id=49591783]
 mesh = SubResource("CapsuleMesh_s1qhn")
 skin = SubResource("Skin_ct1co")
+surface_material_override/0 = SubResource("StandardMaterial3D_3cl4e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=1942011333]
 shape = SubResource("CapsuleShape3D_lo0hl")

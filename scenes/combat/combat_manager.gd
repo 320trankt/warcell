@@ -2,6 +2,7 @@ extends Node
 
 var swipe_start = Vector2.ZERO
 var minimum_drag = 100 # the minimum pixel distance to count as a deliberate swipe
+@onready var enemy = $"../Enemy" # Adjust path to your Enemy node
 
 func _input(event):
 	# because we enabled touch emulation, mouse clicks will trigger this
@@ -19,21 +20,36 @@ func _calculate_swipe(swipe_end):
 	# check if the swipe was long enough to ignore accidental taps
 	if swipe_vector.length() >= minimum_drag:
 		var angle = swipe_vector.angle()
+		var direction = ""
 
 		# split the circle into 8 equal sectors (45 degrees each)
 		if angle >= -PI / 8 and angle < PI / 8:
+			direction = "right"
 			print("swiped right - parry right!")
 		elif angle >= PI / 8 and angle < 3 * PI / 8:
+			direction = "down-right"
 			print("swiped down-right - low right guard!")
 		elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+			direction = "down"
 			print("swiped down - block!")
 		elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+			direction = "down-left"
 			print("swiped down-left - low left guard!")
 		elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+			direction = "left"
 			print("swiped left - parry left!")
 		elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+			direction = "up-left"
 			print("swiped up-left - rising left strike!")
 		elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+			direction = "up"
 			print("swiped up - vertical strike!")
 		else:
+			direction = "up-right"
 			print("swiped up-right - rising right strike!")
+		_on_swipe_detected(direction)
+
+func _on_swipe_detected(direction):
+	#print("Swiped: ", direction)
+	if enemy.has_method("take_hit"):
+		enemy.take_hit()
