@@ -2,36 +2,79 @@
 
 [ext_resource type="Script" uid="uid://c2u5gff8pn5iv" path="res://scenes/combat/combat_manager.gd" id="1_jecyb"]
 [ext_resource type="Script" uid="uid://bcro452tknj05" path="res://scenes/combat/enemies/base_enemy/base_enemy.gd" id="2_7cuye"]
+[ext_resource type="PackedScene" uid="uid://p4w6ml0msjjg" path="res://assets/3d/Knight by @Quaternius/FBX/KnightCharacter.fbx" id="3_3cl4e"]
+[ext_resource type="Texture2D" uid="uid://cqwkeca6t6tvu" path="res://assets/3d/Ultimate Stylized Nature/glTF/Grass.png" id="4_kltxb"]
+[ext_resource type="PackedScene" uid="uid://ctplg350y4jjp" path="res://assets/3d/Ultimate Monsters/Big/glTF/Orc_Skull.gltf" id="5_kltxb"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1qhn"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_pbkuh"]
+lightmap_size_hint = Vector2i(1502, 1502)
+size = Vector2(300, 300)
 
-[sub_resource type="Skin" id="Skin_ct1co"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n81vl"]
+albedo_texture = ExtResource("4_kltxb")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyyo7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cl4e"]
-next_pass = SubResource("ShaderMaterial_fyyo7")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lo0hl"]
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_w220i"]
+data = PackedVector3Array(150, 0, 150, -150, 0, 150, 150, 0, -150, -150, 0, 150, -150, 0, -150, 150, 0, -150)
 
 [node name="CombatScene" type="Node3D" unique_id=1578232915]
 
 [node name="CombatManager" type="Node" parent="." unique_id=15437406]
 script = ExtResource("1_jecyb")
 
-[node name="Enemy" type="CharacterBody3D" parent="." unique_id=220133960]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=538845045]
+transform = Transform3D(-0.8660253, 0.35328808, -0.3538187, 2.314023e-08, 0.7076372, 0.70657593, 0.5, 0.61191267, -0.6128318, 0, 13.233521, 0.40877557)
+light_color = Color(1, 0.7607843, 0.5529412, 1)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=207004416]
+
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=442766976]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 4, 0.231)
+
+[node name="KnightCharacter" parent="Player" unique_id=813950375 instance=ExtResource("3_3cl4e")]
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=1535882927]
+mesh = SubResource("PlaneMesh_pbkuh")
+surface_material_override/0 = SubResource("StandardMaterial3D_n81vl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=1550260888]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=661791007]
+shape = SubResource("ConcavePolygonShape3D_w220i")
+
+[node name="Enemy" type="Node3D" parent="." unique_id=1653616259]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 11)
 script = ExtResource("2_7cuye")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy" unique_id=49591783]
-mesh = SubResource("CapsuleMesh_s1qhn")
-skin = SubResource("Skin_ct1co")
-surface_material_override/0 = SubResource("StandardMaterial3D_3cl4e")
+[node name="Orc_Skull2" parent="Enemy" unique_id=573216682 instance=ExtResource("5_kltxb")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=1942011333]
-shape = SubResource("CapsuleShape3D_lo0hl")
+[node name="Skeleton3D" parent="Enemy/Orc_Skull2/CharacterArmature" parent_id_path=PackedInt32Array(573216682, 493690214) index="0" unique_id=1004474203]
+bones/1/rotation = Quaternion(1.167467e-05, 0.70580643, 0.70840484, 1.2000977e-05)
+bones/2/rotation = Quaternion(-3.5526934e-15, 1.1920933e-07, -8.470341e-22, 1)
+bones/4/rotation = Quaternion(0.16683151, 4.3189968e-07, 1.0312022e-07, 0.9859854)
+bones/5/rotation = Quaternion(0.096189596, -8.284732e-07, 2.1512088e-08, 0.99536306)
+bones/6/rotation = Quaternion(0.35192487, 9.693933e-07, 1.5025624e-07, 0.93602824)
+bones/7/rotation = Quaternion(-0.39071867, -0.00025390703, 0.000107201624, 0.9205101)
+bones/8/rotation = Quaternion(-0.1344962, -0.032737702, -0.4091269, 0.9019169)
+bones/9/rotation = Quaternion(0.49462217, 0.5018446, 0.5071979, -0.49623704)
+bones/10/rotation = Quaternion(0.014786737, 0.26712272, -0.17426826, 0.9476589)
+bones/22/rotation = Quaternion(-0.13449597, 0.032738276, 0.40912706, 0.9019169)
+bones/23/rotation = Quaternion(-0.49462226, 0.5018445, 0.5071981, 0.4962369)
+bones/24/rotation = Quaternion(0.014786795, -0.26712275, 0.17426829, 0.9476589)
+bones/26/rotation = Quaternion(-0.028374804, 0.0048223697, 0.16748188, 0.9854549)
+bones/27/rotation = Quaternion(-0.10664139, 0.00092194474, -0.008597328, 0.99426)
+bones/29/rotation = Quaternion(-0.11277094, -0.0007699362, -0.014514986, 0.9935147)
+bones/30/rotation = Quaternion(0.02055749, 0.0009909485, 0.0012504223, 0.99978745)
+bones/32/rotation = Quaternion(0.042253964, -0.025641643, -0.23230451, 0.9713865)
+bones/33/rotation = Quaternion(-0.076612085, 0.0015270514, 0.019867456, 0.99686193)
+bones/35/rotation = Quaternion(-0.01162578, -0.0025345085, -0.21219268, 0.9771554)
+bones/36/rotation = Quaternion(0.9650398, 0.008723388, 0.00209293, 0.26195)
+bones/37/rotation = Quaternion(0.5170168, 0.006319713, 0.008506135, 0.85590965)
+bones/38/rotation = Quaternion(0.9650398, -0.00872351, -0.0020921999, 0.2619499)
+bones/39/rotation = Quaternion(0.51701677, -0.0063197357, -0.00850617, 0.8559097)
+bones/40/rotation = Quaternion(-3.5526934e-15, 1.1920937e-07, -8.470344e-22, 1)
+bones/41/rotation = Quaternion(-1.2077862e-05, 0.70580643, 0.70840484, -1.1664424e-05)
+bones/42/rotation = Quaternion(-3.552734e-15, -5.9604645e-07, 3.3881257e-21, 1)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=442766976]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=538845045]
-transform = Transform3D(1, 0, 0, 0, 0.5006498, 0.86564994, 0, -0.86564994, 0.5006498, 0, 1.6616812, 0.40877557)
+[editable path="Player/KnightCharacter"]
+[editable path="Enemy/Orc_Skull2"]

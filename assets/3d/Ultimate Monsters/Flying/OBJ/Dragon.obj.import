@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b432vxap10hk3"
+path="res://.godot/imported/Dragon.obj-1f77b28f096dc2e263e11fe6c7a2c1ee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Dragon.obj-1f77b28f096dc2e263e11fe6c7a2c1ee.mesh"]
+
+source_file="res://assets/3d/Ultimate Monsters/Flying/OBJ/Dragon.obj"
+dest_files=["res://.godot/imported/Dragon.obj-1f77b28f096dc2e263e11fe6c7a2c1ee.mesh", "res://.godot/imported/Dragon.obj-1f77b28f096dc2e263e11fe6c7a2c1ee.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

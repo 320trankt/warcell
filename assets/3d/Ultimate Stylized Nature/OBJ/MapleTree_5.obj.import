@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://1q8l4gx4txun"
+path="res://.godot/imported/MapleTree_5.obj-6043028f8f8e7bc1092519dfb5e10104.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MapleTree_5.obj-6043028f8f8e7bc1092519dfb5e10104.mesh"]
+
+source_file="res://assets/3d/Ultimate Stylized Nature/OBJ/MapleTree_5.obj"
+dest_files=["res://.godot/imported/MapleTree_5.obj-6043028f8f8e7bc1092519dfb5e10104.mesh", "res://.godot/imported/MapleTree_5.obj-6043028f8f8e7bc1092519dfb5e10104.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

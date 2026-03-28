@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://yubrod6e4y0p"
+path="res://.godot/imported/Petals_1.obj-6011e811541ad5622c55a41f2ddc698c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Petals_1.obj-6011e811541ad5622c55a41f2ddc698c.mesh"]
+
+source_file="res://assets/3d/Ultimate Stylized Nature/OBJ/Petals_1.obj"
+dest_files=["res://.godot/imported/Petals_1.obj-6011e811541ad5622c55a41f2ddc698c.mesh", "res://.godot/imported/Petals_1.obj-6011e811541ad5622c55a41f2ddc698c.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://crwsgieb0b8uu"
+path="res://.godot/imported/Cactoro.obj-e7bf7268e41fa9e5c7125029dda8679b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Cactoro.obj-e7bf7268e41fa9e5c7125029dda8679b.mesh"]
+
+source_file="res://assets/3d/Ultimate Monsters/Blob/OBJ/Cactoro.obj"
+dest_files=["res://.godot/imported/Cactoro.obj-e7bf7268e41fa9e5c7125029dda8679b.mesh", "res://.godot/imported/Cactoro.obj-e7bf7268e41fa9e5c7125029dda8679b.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

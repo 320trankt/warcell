@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://lvggv4dxx3es"
+path="res://.godot/imported/Pigeon.obj-744d79a835352298309a2e33adaca49c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Pigeon.obj-744d79a835352298309a2e33adaca49c.mesh"]
+
+source_file="res://assets/3d/Ultimate Monsters/Blob/OBJ/Pigeon.obj"
+dest_files=["res://.godot/imported/Pigeon.obj-744d79a835352298309a2e33adaca49c.mesh", "res://.godot/imported/Pigeon.obj-744d79a835352298309a2e33adaca49c.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
