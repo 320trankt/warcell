@@ -10,7 +10,7 @@ var attacks: Array[Dictionary] = [
 		"animation": "Punch",
 		"direction": "left",       # orc swings from its right → player parries left
 		"telegraph_anim": "Duck",  # wind-up tell
-		"telegraph_duration": 0.6,
+		"telegraph_duration": 0,
 		"parry_window_start": 0.15,
 		"parry_window_end": 0.55,
 		"recovery_duration": 0.5,
@@ -20,7 +20,7 @@ var attacks: Array[Dictionary] = [
 		"animation": "Weapon",
 		"direction": "up-right",      # weapon swing from orc's left → parry right
 		"telegraph_anim": "Duck",
-		"telegraph_duration": 0.8,
+		"telegraph_duration": 0,
 		"parry_window_start": 0.2,
 		"parry_window_end": 0.5,
 		"recovery_duration": 0.6,
@@ -35,15 +35,24 @@ var parry_succeeded: bool = false
 
 var mesh: MeshInstance3D
 var anim_player: AnimationPlayer
+var stats: EnemyStats
 
 ## Time the enemy idles before launching the next attack
 var idle_duration_min: float = 1.0
 var idle_duration_max: float = 2.5
 
+## Override this in inherited scenes / spawner to customise starting health
+@export var max_health: float = 100.0
+
 signal parry_result(success: bool, direction: String)
 signal attack_landed(damage: int)
+signal died
 
 func _ready():
+	stats = EnemyStats.new(max_health)
+	stats.stat_changed.connect(_on_stat_changed)
+	stats.health_depleted.connect(_on_health_depleted)
+
 	mesh = _find_node_recursive(self, MeshInstance3D) as MeshInstance3D
 	anim_player = _find_node_recursive(self, AnimationPlayer) as AnimationPlayer
 
@@ -112,7 +121,7 @@ func _enter_state(new_state: State) -> void:
 			anim_player.play("Death")
 
 func _start_attack() -> void:
-	if state != State.IDLE:
+	if state != State.IDLE or not stats.is_alive():
 		return
 	current_attack = attacks.pick_random()
 	_enter_state(State.TELEGRAPH)
@@ -133,8 +142,11 @@ func try_parry(direction: String) -> bool:
 		if direction == current_attack.direction:
 			print("[Enemy] PARRY SUCCESS!")
 			parry_succeeded = true
+			stats.take_damage(current_attack.damage)
+			print("[Enemy] Health: %s / %s" % [stats.health, stats.max_health])
 			parry_result.emit(true, direction)
-			_enter_state(State.HIT)
+			if stats.is_alive():
+				_enter_state(State.HIT)
 			return true
 		else:
 			print("[Enemy] Wrong direction! Needed %s, got %s" % [current_attack.direction, direction])
@@ -157,6 +169,17 @@ func _flash_hit() -> void:
 	tween.parallel().tween_property(self, "position:z", position.z + 0.2, 0.05)
 	tween.tween_property(mat, "albedo_color", Color.WHITE, 0.1)
 	tween.parallel().tween_property(self, "position:z", position.z, 0.1)
+
+# ── Stats callbacks ───────────────────────────────────────────
+
+func _on_stat_changed(stat_name: String, new_value: float) -> void:
+	# Hook point for UI updates, buff/debuff logic, etc.
+	pass
+
+func _on_health_depleted() -> void:
+	print("[Enemy] DEFEATED!")
+	died.emit()
+	_enter_state(State.DEATH)
 
 # ── Helpers ───────────────────────────────────────────────────
 
