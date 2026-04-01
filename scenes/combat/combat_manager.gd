@@ -50,6 +50,5 @@ func _calculate_swipe(swipe_end):
 		_on_swipe_detected(direction)
 
 func _on_swipe_detected(direction):
-	#print("Swiped: ", direction)
-	if enemy.has_method("take_hit"):
-		enemy.take_hit()
+	if enemy.has_method("try_parry"):
+		enemy.try_parry(direction)
