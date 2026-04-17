@@ -5,13 +5,32 @@ var minimum_drag = 100 # the minimum pixel distance to count as a deliberate swi
 @onready var enemy = $"../Enemy" # Adjust path to your Enemy node
 
 func _ready():
-	if enemy and enemy.has_signal("died"):
-		enemy.died.connect(_on_enemy_died)
+	# Reset player resources for this battle
+	PlayerData.reset_resources()
+
+	if enemy:
+		if enemy.has_signal("died"):
+			enemy.died.connect(_on_enemy_died)
+		if enemy.has_signal("attack_landed"):
+			enemy.attack_landed.connect(_on_enemy_attack_landed)
+
+func _process(delta: float) -> void:
+	# Regenerate player energy over time
+	PlayerData.regen_energy(delta)
 
 func _on_enemy_died():
 	# Let the death animation play out before returning to the map
 	await get_tree().create_timer(2.0).timeout
 	SceneManager.change_scene("res://scenes/global_map/global_map.tscn")
+
+func _on_enemy_attack_landed(damage: float) -> void:
+	PlayerData.take_damage(damage)
+	print("[Player] Health: %.0f / %.0f" % [PlayerData.health, PlayerData.max_health])
+	if not PlayerData.is_alive():
+		print("[Player] DEFEATED!")
+		set_process_input(false)
+		await get_tree().create_timer(1.5).timeout
+		SceneManager.change_scene("res://scenes/global_map/global_map.tscn")
 
 func _input(event):
 	# because we enabled touch emulation, mouse clicks will trigger this

@@ -6,9 +6,11 @@ const MapCellScene := preload("res://scenes/global_map/map_cell.tscn")
 
 @onready var grid: GridContainer = %CellGrid
 @onready var info_label: Label = %InfoLabel
+@onready var stats_button: Button = %StatsButton
 
 func _ready() -> void:
 	grid.columns = MAP_COLS
+	stats_button.pressed.connect(_on_stats_button_pressed)
 	_generate_map()
 
 func _generate_map() -> void:
@@ -50,3 +52,6 @@ func _on_cell_pressed(cell: MapCell) -> void:
 			info_label.text = "Empty wilderness. [%d,%d]" % [cell.grid_position.x, cell.grid_position.y]
 		MapCell.CellState.LOCKED:
 			info_label.text = "Unknown territory. Push the frontline!"
+
+func _on_stats_button_pressed() -> void:
+	SceneManager.change_scene("res://scenes/ui/player_stats_screen.tscn")
