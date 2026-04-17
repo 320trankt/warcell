@@ -44,6 +44,7 @@ shape = SubResource("ConcavePolygonShape3D_w220i")
 [node name="Enemy" type="Node3D" parent="." unique_id=1653616259]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 11)
 script = ExtResource("2_7cuye")
+max_health = 30.0
 
 [node name="Orc_Skull2" parent="Enemy" unique_id=573216682 instance=ExtResource("5_kltxb")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -70,7 +71,7 @@ bones/33/rotation = Quaternion(-0.076612085, 0.0015270514, 0.019867456, 0.996861
 bones/35/rotation = Quaternion(-0.01162578, -0.0025345085, -0.21219268, 0.9771554)
 bones/36/rotation = Quaternion(0.9650398, 0.008723388, 0.00209293, 0.26195)
 bones/37/rotation = Quaternion(0.5170168, 0.006319713, 0.008506135, 0.85590965)
-bones/38/rotation = Quaternion(0.9650398, -0.0087235095, -0.0020921999, 0.26194987)
+bones/38/rotation = Quaternion(0.9650398, -0.00872351, -0.0020921999, 0.2619499)
 bones/39/rotation = Quaternion(0.51701677, -0.0063197357, -0.00850617, 0.8559097)
 bones/40/rotation = Quaternion(-3.5526934e-15, 1.1920937e-07, -8.470344e-22, 1)
 bones/41/rotation = Quaternion(-1.2077862e-05, 0.70580643, 0.70840484, -1.1664424e-05)

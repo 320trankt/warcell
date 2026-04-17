@@ -4,6 +4,15 @@ var swipe_start = Vector2.ZERO
 var minimum_drag = 100 # the minimum pixel distance to count as a deliberate swipe
 @onready var enemy = $"../Enemy" # Adjust path to your Enemy node
 
+func _ready():
+	if enemy and enemy.has_signal("died"):
+		enemy.died.connect(_on_enemy_died)
+
+func _on_enemy_died():
+	# Let the death animation play out before returning to the map
+	await get_tree().create_timer(2.0).timeout
+	SceneManager.change_scene("res://scenes/global_map/global_map.tscn")
+
 func _input(event):
 	# because we enabled touch emulation, mouse clicks will trigger this
 	if event is InputEventScreenTouch:

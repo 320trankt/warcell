@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="WarCell"
-run/main_scene="res://scenes/combat/combat_scene.tscn"
+run/main_scene="res://scenes/ui/title_screen.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneManager="*res://autoload/scene_manager.gd"
 
 [display]
 
