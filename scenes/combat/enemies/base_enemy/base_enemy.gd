@@ -8,8 +8,8 @@ enum State { IDLE, TELEGRAPH, ATTACK, RECOVERY, HIT, STUNNED, DEATH }
 var attacks: Array[Dictionary] = [
 	{
 		"animation": "Punch",
-		"direction": "left",       # orc swings from its right → player parries left
-		"telegraph_anim": "Duck",  # wind-up tell
+		"direction": "left",
+		"telegraph_anim": "Duck",
 		"telegraph_duration": 0,
 		"parry_window_start": 0.15,
 		"parry_window_end": 0.55,
@@ -17,7 +17,7 @@ var attacks: Array[Dictionary] = [
 	},
 	{
 		"animation": "Weapon",
-		"direction": "up-right",      # weapon swing from orc's left → parry right
+		"direction": "up-right",
 		"telegraph_anim": "Duck",
 		"telegraph_duration": 0,
 		"parry_window_start": 0.2,
@@ -35,9 +35,12 @@ var mesh: MeshInstance3D
 var anim_player: AnimationPlayer
 var stats: EnemyStats
 
-## Time the enemy idles before launching the next attack
 var idle_duration_min: float = 1.0
 var idle_duration_max: float = 2.5
+var stun_duration: float = 3.0
+
+const STUN_DAMAGE_MULTIPLIER := 1.0
+const NORMAL_DAMAGE_MULTIPLIER := 0.15
 
 ## Override these in inherited scenes / spawner to customise stats
 @export var enemy_strength: int = 5
@@ -48,6 +51,7 @@ var idle_duration_max: float = 2.5
 signal parry_result(success: bool, direction: String)
 signal attack_landed(damage: float)
 signal died
+signal stats_updated
 
 func _ready():
 	stats = EnemyStats.new(enemy_constitution, enemy_strength, enemy_technique, enemy_agility)
@@ -69,11 +73,9 @@ func _ready():
 	else:
 		push_warning("[Enemy] No AnimationPlayer found in children!")
 
-func _process(_delta: float) -> void:
-	# Posture regeneration
-	if stats:
-		stats.regen_posture(_delta)
+	stats_updated.emit.call_deferred()
 
+func _process(_delta: float) -> void:
 	if state == State.ATTACK and anim_player.is_playing():
 		var pos := anim_player.current_animation_position
 		var was_open := parry_window_open
@@ -83,7 +85,7 @@ func _process(_delta: float) -> void:
 		var pw_end: float = current_attack.parry_window_end - shrink
 		parry_window_open = pw_start < pw_end and pos >= pw_start and pos <= pw_end
 		if parry_window_open and not was_open:
-			print("[Enemy] Parry window OPEN  — swipe %s!" % current_attack.direction)
+			print("[Enemy] Parry window OPEN — swipe %s!" % current_attack.direction)
 		elif not parry_window_open and was_open:
 			print("[Enemy] Parry window CLOSED")
 
@@ -129,15 +131,17 @@ func _enter_state(new_state: State) -> void:
 			# animation_finished callback returns to RECOVERY
 
 		State.STUNNED:
-			print("[Enemy] POSTURE BROKEN — stunned!")
-			anim_player.play("HitReact")
-			_flash_hit()
+			print("[Enemy] POSTURE BROKEN — stunned for %.1fs!" % stun_duration)
 			stats.is_posture_broken = true
-			# Stunned for a window, then recover posture
-			get_tree().create_timer(2.0).timeout.connect(func():
-				stats.restore_posture()
-				print("[Enemy] Posture restored!")
-				_enter_state(State.IDLE)
+			if anim_player.has_animation("HitReact"):
+				anim_player.play("HitReact")
+			_flash_stun()
+			get_tree().create_timer(stun_duration).timeout.connect(func():
+				if state == State.STUNNED and stats.is_alive():
+					stats.restore_posture()
+					print("[Enemy] Posture restored!")
+					stats_updated.emit()
+					_enter_state(State.IDLE)
 			, CONNECT_ONE_SHOT)
 
 		State.DEATH:
@@ -156,37 +160,46 @@ func _on_animation_finished(anim_name: StringName) -> void:
 		State.HIT:
 			_enter_state(State.RECOVERY)
 		State.STUNNED:
-			pass # timer handles recovery
+			# Loop HitReact while stunned
+			if stats.is_alive() and anim_player.has_animation("HitReact"):
+				anim_player.play("HitReact")
 		State.DEATH:
-			pass # stay dead
+			pass
 
-# ── Parry interface (called by CombatManager) ────────────────
+# ── Parry interface (posture damage only) ─────────────────────
 
-func try_parry(direction: String) -> bool:
-	if state == State.ATTACK and parry_window_open:
-		if direction == current_attack.direction:
-			print("[Enemy] PARRY SUCCESS!")
-			parry_succeeded = true
-			# Use player stats for damage dealt
-			var health_dmg := PlayerData.get_attack_damage()
-			var posture_dmg := PlayerData.get_posture_damage()
-			stats.take_damage(health_dmg)
-			stats.damage_posture(posture_dmg)
-			print("[Enemy] Health: %.0f / %.0f | Posture: %.0f / %.0f" % [stats.health, stats.max_health, stats.posture, stats.max_posture])
-			parry_result.emit(true, direction)
-			if stats.is_alive():
-				if stats.is_stunned():
-					_enter_state(State.STUNNED)
-				else:
-					_enter_state(State.HIT)
-			return true
-		else:
-			print("[Enemy] Wrong direction! Needed %s, got %s" % [current_attack.direction, direction])
-			parry_result.emit(false, direction)
-			return false
-	else:
-		print("[Enemy] Swipe outside parry window (state=%s, window=%s)" % [State.keys()[state], parry_window_open])
-		return false
+func is_parry_possible(direction: String) -> bool:
+	return state == State.ATTACK and parry_window_open and direction == current_attack.direction
+
+func receive_parry(direction: String) -> void:
+	print("[Enemy] PARRY SUCCESS!")
+	parry_succeeded = true
+	var posture_dmg := PlayerData.get_posture_damage()
+	stats.damage_posture(posture_dmg)
+	print("[Enemy] Posture: %.0f / %.0f" % [stats.posture, stats.max_posture])
+	parry_result.emit(true, direction)
+	stats_updated.emit()
+	if stats.is_alive() and not stats.is_stunned():
+		_enter_state(State.HIT)
+
+# ── Attack interface (health damage) ──────────────────────────
+
+func receive_attack(_direction: String) -> void:
+	if state == State.DEATH:
+		return
+	# Check dodge chance (not while stunned)
+	if state != State.STUNNED and randf() < stats.get_dodge_chance():
+		print("[Enemy] Dodged the attack!")
+		return
+	var base_dmg := PlayerData.get_attack_damage()
+	var multiplier := STUN_DAMAGE_MULTIPLIER if state == State.STUNNED else NORMAL_DAMAGE_MULTIPLIER
+	var final_dmg := base_dmg * multiplier
+	stats.take_damage(final_dmg)
+	print("[Enemy] Hit for %.1f damage (%s). Health: %.0f / %.0f" % [
+		final_dmg, "STUNNED" if state == State.STUNNED else "guarded", stats.health, stats.max_health
+	])
+	stats_updated.emit()
+	_flash_hit()
 
 # ── Visual feedback ───────────────────────────────────────────
 
@@ -202,11 +215,24 @@ func _flash_hit() -> void:
 	tween.tween_property(mat, "albedo_color", Color.WHITE, 0.1)
 	tween.parallel().tween_property(self, "position:z", position.z, 0.1)
 
+func _flash_stun() -> void:
+	if not mesh:
+		return
+	var mat = mesh.get_active_material(0)
+	if not mat:
+		return
+	var tween = create_tween().set_loops(int(stun_duration / 0.6))
+	tween.tween_property(mat, "albedo_color", Color(1.0, 0.9, 0.3), 0.3)
+	tween.tween_property(mat, "albedo_color", Color(0.6, 0.5, 0.2), 0.3)
+	get_tree().create_timer(stun_duration).timeout.connect(func():
+		if mat:
+			mat.albedo_color = Color.WHITE
+	, CONNECT_ONE_SHOT)
+
 # ── Stats callbacks ───────────────────────────────────────────
 
 func _on_stat_changed(stat_name: String, new_value: float) -> void:
-	# Hook point for UI updates, buff/debuff logic, etc.
-	pass
+	stats_updated.emit()
 
 func _on_health_depleted() -> void:
 	print("[Enemy] DEFEATED!")

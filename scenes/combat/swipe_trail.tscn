@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/combat/swipe_trail.gd" id="1_script"]
+
+[node name="SwipeTrail" type="CanvasLayer"]
+layer = 15
+script = ExtResource("1_script")
