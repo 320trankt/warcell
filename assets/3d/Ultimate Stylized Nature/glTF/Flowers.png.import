@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dicbnlbfi7gmi"
 path.s3tc="res://.godot/imported/Flowers.png-035385b97883f44bb4dd5920b3fba182.s3tc.ctex"
+path.etc2="res://.godot/imported/Flowers.png-035385b97883f44bb4dd5920b3fba182.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/3d/Ultimate Stylized Nature/glTF/Flowers.png"
-dest_files=["res://.godot/imported/Flowers.png-035385b97883f44bb4dd5920b3fba182.s3tc.ctex"]
+dest_files=["res://.godot/imported/Flowers.png-035385b97883f44bb4dd5920b3fba182.s3tc.ctex", "res://.godot/imported/Flowers.png-035385b97883f44bb4dd5920b3fba182.etc2.ctex"]
 
 [params]
 

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnx88n0w4eji7"
 path.s3tc="res://.godot/imported/Monkroose_Atlas_Monsters.png-1105a23c63a22f85a24b323c6bcc037c.s3tc.ctex"
+path.etc2="res://.godot/imported/Monkroose_Atlas_Monsters.png-1105a23c63a22f85a24b323c6bcc037c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Big/glTF/Monkroose_Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Monkroose_Atlas_Monsters.png-1105a23c63a22f85a24b323c6bcc037c.s3tc.ctex"]
+dest_files=["res://.godot/imported/Monkroose_Atlas_Monsters.png-1105a23c63a22f85a24b323c6bcc037c.s3tc.ctex", "res://.godot/imported/Monkroose_Atlas_Monsters.png-1105a23c63a22f85a24b323c6bcc037c.etc2.ctex"]
 
 [params]
 

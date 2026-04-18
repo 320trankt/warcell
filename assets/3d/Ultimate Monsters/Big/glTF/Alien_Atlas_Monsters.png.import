@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://078ebl8syvmf"
 path.s3tc="res://.godot/imported/Alien_Atlas_Monsters.png-237f659491d7ddbb1a003d550b051f8b.s3tc.ctex"
+path.etc2="res://.godot/imported/Alien_Atlas_Monsters.png-237f659491d7ddbb1a003d550b051f8b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Big/glTF/Alien_Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Alien_Atlas_Monsters.png-237f659491d7ddbb1a003d550b051f8b.s3tc.ctex"]
+dest_files=["res://.godot/imported/Alien_Atlas_Monsters.png-237f659491d7ddbb1a003d550b051f8b.s3tc.ctex", "res://.godot/imported/Alien_Atlas_Monsters.png-237f659491d7ddbb1a003d550b051f8b.etc2.ctex"]
 
 [params]
 

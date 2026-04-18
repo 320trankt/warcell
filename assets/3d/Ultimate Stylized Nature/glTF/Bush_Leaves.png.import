@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b873ugtl0d7ps"
 path.s3tc="res://.godot/imported/Bush_Leaves.png-1cbef991bd6d4c9d4a72b9a63f8190cf.s3tc.ctex"
+path.etc2="res://.godot/imported/Bush_Leaves.png-1cbef991bd6d4c9d4a72b9a63f8190cf.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/3d/Ultimate Stylized Nature/glTF/Bush_Leaves.png"
-dest_files=["res://.godot/imported/Bush_Leaves.png-1cbef991bd6d4c9d4a72b9a63f8190cf.s3tc.ctex"]
+dest_files=["res://.godot/imported/Bush_Leaves.png-1cbef991bd6d4c9d4a72b9a63f8190cf.s3tc.ctex", "res://.godot/imported/Bush_Leaves.png-1cbef991bd6d4c9d4a72b9a63f8190cf.etc2.ctex"]
 
 [params]
 

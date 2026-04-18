@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bta4gx08yy3np"
 path.s3tc="res://.godot/imported/Cactoro_Atlas_Monsters.png-192e88a0f41e2c80f8f1672841731e3d.s3tc.ctex"
+path.etc2="res://.godot/imported/Cactoro_Atlas_Monsters.png-192e88a0f41e2c80f8f1672841731e3d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Big/glTF/Cactoro_Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Cactoro_Atlas_Monsters.png-192e88a0f41e2c80f8f1672841731e3d.s3tc.ctex"]
+dest_files=["res://.godot/imported/Cactoro_Atlas_Monsters.png-192e88a0f41e2c80f8f1672841731e3d.s3tc.ctex", "res://.godot/imported/Cactoro_Atlas_Monsters.png-192e88a0f41e2c80f8f1672841731e3d.etc2.ctex"]
 
 [params]
 

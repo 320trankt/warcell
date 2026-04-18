@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkm7x7th18xxr"
 path.s3tc="res://.godot/imported/Alpaking_Evolved_Atlas_Monsters.png-3a127c970a066f57939be9905d694bd3.s3tc.ctex"
+path.etc2="res://.godot/imported/Alpaking_Evolved_Atlas_Monsters.png-3a127c970a066f57939be9905d694bd3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Flying/glTF/Alpaking_Evolved_Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Alpaking_Evolved_Atlas_Monsters.png-3a127c970a066f57939be9905d694bd3.s3tc.ctex"]
+dest_files=["res://.godot/imported/Alpaking_Evolved_Atlas_Monsters.png-3a127c970a066f57939be9905d694bd3.s3tc.ctex", "res://.godot/imported/Alpaking_Evolved_Atlas_Monsters.png-3a127c970a066f57939be9905d694bd3.etc2.ctex"]
 
 [params]
 

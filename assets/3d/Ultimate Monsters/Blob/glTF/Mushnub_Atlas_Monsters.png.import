@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bridv04w80a53"
 path.s3tc="res://.godot/imported/Mushnub_Atlas_Monsters.png-7628afd715e326bf2bc7b062707e58cf.s3tc.ctex"
+path.etc2="res://.godot/imported/Mushnub_Atlas_Monsters.png-7628afd715e326bf2bc7b062707e58cf.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Blob/glTF/Mushnub_Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Mushnub_Atlas_Monsters.png-7628afd715e326bf2bc7b062707e58cf.s3tc.ctex"]
+dest_files=["res://.godot/imported/Mushnub_Atlas_Monsters.png-7628afd715e326bf2bc7b062707e58cf.s3tc.ctex", "res://.godot/imported/Mushnub_Atlas_Monsters.png-7628afd715e326bf2bc7b062707e58cf.etc2.ctex"]
 
 [params]
 

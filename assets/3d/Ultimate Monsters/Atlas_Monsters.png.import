@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bk1scxafowrv3"
 path.s3tc="res://.godot/imported/Atlas_Monsters.png-0acc24b2070f591e8f7166603bbda734.s3tc.ctex"
+path.etc2="res://.godot/imported/Atlas_Monsters.png-0acc24b2070f591e8f7166603bbda734.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/3d/Ultimate Monsters/Atlas_Monsters.png"
-dest_files=["res://.godot/imported/Atlas_Monsters.png-0acc24b2070f591e8f7166603bbda734.s3tc.ctex"]
+dest_files=["res://.godot/imported/Atlas_Monsters.png-0acc24b2070f591e8f7166603bbda734.s3tc.ctex", "res://.godot/imported/Atlas_Monsters.png-0acc24b2070f591e8f7166603bbda734.etc2.ctex"]
 
 [params]
 
