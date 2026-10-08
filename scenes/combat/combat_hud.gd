@@ -4,6 +4,8 @@ extends CanvasLayer
 @onready var player_energy_bar: ProgressBar = %PlayerEnergyBar
 @onready var player_health_label: Label = %PlayerHealthLabel
 @onready var player_energy_label: Label = %PlayerEnergyLabel
+@onready var player_posture_bar: ProgressBar = %PlayerPostureBar
+@onready var player_posture_label: Label = %PlayerPostureLabel
 
 @onready var enemy_health_bar: ProgressBar = %EnemyHealthBar
 @onready var enemy_posture_bar: ProgressBar = %EnemyPostureBar
@@ -21,6 +23,10 @@ func update_player_bars() -> void:
 	player_energy_bar.max_value = PlayerData.max_energy
 	player_energy_bar.value = PlayerData.energy
 	player_energy_label.text = "%.0f" % PlayerData.energy
+
+	player_posture_bar.max_value = PlayerData.max_posture
+	player_posture_bar.value = PlayerData.posture
+	player_posture_label.text = "STUN" if PlayerData.is_stunned() else "%.0f" % PlayerData.posture
 
 func update_enemy_bars(stats: EnemyStats) -> void:
 	enemy_health_bar.max_value = stats.max_health

@@ -161,7 +161,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = -110.0
+offset_top = -130.0
 offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 2
@@ -233,6 +233,37 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(40, 0)
 theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 11
+text = "100"
+horizontal_alignment = 2
+
+[node name="PlayerPostureRow" type="HBoxContainer" parent="PlayerBars"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlayerPostureIcon" type="Label" parent="PlayerBars/PlayerPostureRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(30, 0)
+theme_override_colors/font_color = Color(0.85, 0.65, 0.15, 1)
+theme_override_font_sizes/font_size = 11
+text = "POS"
+
+[node name="PlayerPostureBar" type="ProgressBar" parent="PlayerBars/PlayerPostureRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 12)
+theme_override_styles/background = SubResource("StyleBoxFlat_posture_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_posture_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="PlayerPostureLabel" type="Label" parent="PlayerBars/PlayerPostureRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_override_colors/font_color = Color(0.85, 0.75, 0.6, 1)
 theme_override_font_sizes/font_size = 11
 text = "100"
 horizontal_alignment = 2
