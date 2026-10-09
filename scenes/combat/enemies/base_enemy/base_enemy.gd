@@ -120,12 +120,13 @@ func _enter_state(new_state: State) -> void:
 
 		State.RECOVERY:
 			anim_player.play("Idle")
+			# schedule before emitting attack_landed, so a handler that changes state invalidates this timer
+			_after_in_state(current_attack.recovery_duration, func(): _enter_state(State.IDLE))
 			if not parry_succeeded:
 				# player failed to parry — attack lands using stat-driven damage
 				var dmg := stats.get_attack_damage()
 				print("[Enemy] Attack landed! %.1f damage." % dmg)
 				attack_landed.emit(dmg)
-			_after_in_state(current_attack.recovery_duration, func(): _enter_state(State.IDLE))
 
 		State.HIT:
 			anim_player.play("HitReact")
