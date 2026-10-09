@@ -27,6 +27,8 @@ var attacks: Array[Dictionary] = [
 ]
 
 var state: State = State.IDLE
+## Bumped on every state change so timers from an older state can tell they are stale
+var _state_serial: int = 0
 var current_attack: Dictionary = {}
 var parry_window_open: bool = false
 var parry_succeeded: bool = false
@@ -92,7 +94,11 @@ func _process(_delta: float) -> void:
 # ── State machine ─────────────────────────────────────────────
 
 func _enter_state(new_state: State) -> void:
+	# death is terminal — nothing (stale timers included) may bring the enemy back
+	if state == State.DEATH:
+		return
 	state = new_state
+	_state_serial += 1
 	parry_window_open = false
 
 	match state:
@@ -101,14 +107,12 @@ func _enter_state(new_state: State) -> void:
 			anim_player.play("Idle")
 			# wait a random beat then pick an attack
 			var wait := randf_range(idle_duration_min, idle_duration_max)
-			get_tree().create_timer(wait).timeout.connect(_start_attack, CONNECT_ONE_SHOT)
+			_after_in_state(wait, _start_attack)
 
 		State.TELEGRAPH:
 			print("[Enemy] Telegraphing: %s attack incoming (parry %s)" % [current_attack.animation, current_attack.direction])
 			anim_player.play(current_attack.telegraph_anim)
-			get_tree().create_timer(current_attack.telegraph_duration).timeout.connect(
-				func(): _enter_state(State.ATTACK), CONNECT_ONE_SHOT
-			)
+			_after_in_state(current_attack.telegraph_duration, func(): _enter_state(State.ATTACK))
 
 		State.ATTACK:
 			anim_player.play(current_attack.animation)
@@ -116,14 +120,13 @@ func _enter_state(new_state: State) -> void:
 
 		State.RECOVERY:
 			anim_player.play("Idle")
+			# schedule before emitting attack_landed, so a handler that changes state invalidates this timer
+			_after_in_state(current_attack.recovery_duration, func(): _enter_state(State.IDLE))
 			if not parry_succeeded:
 				# player failed to parry — attack lands using stat-driven damage
 				var dmg := stats.get_attack_damage()
 				print("[Enemy] Attack landed! %.1f damage." % dmg)
 				attack_landed.emit(dmg)
-			get_tree().create_timer(current_attack.recovery_duration).timeout.connect(
-				func(): _enter_state(State.IDLE), CONNECT_ONE_SHOT
-			)
 
 		State.HIT:
 			anim_player.play("HitReact")
@@ -136,16 +139,23 @@ func _enter_state(new_state: State) -> void:
 			if anim_player.has_animation("HitReact"):
 				anim_player.play("HitReact")
 			_flash_stun()
-			get_tree().create_timer(stun_duration).timeout.connect(func():
-				if state == State.STUNNED and stats.is_alive():
-					stats.restore_posture()
-					print("[Enemy] Posture restored!")
-					stats_updated.emit()
-					_enter_state(State.IDLE)
-			, CONNECT_ONE_SHOT)
+			_after_in_state(stun_duration, func():
+				stats.restore_posture()
+				print("[Enemy] Posture restored!")
+				stats_updated.emit()
+				_enter_state(State.IDLE)
+			)
 
 		State.DEATH:
 			anim_player.play("Death")
+
+## Calls `callback` after `seconds`, unless the state has changed in the meantime.
+func _after_in_state(seconds: float, callback: Callable) -> void:
+	var serial := _state_serial
+	get_tree().create_timer(seconds).timeout.connect(func():
+		if serial == _state_serial:
+			callback.call()
+	, CONNECT_ONE_SHOT)
 
 func _start_attack() -> void:
 	if state != State.IDLE or not stats.is_alive():
