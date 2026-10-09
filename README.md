@@ -35,3 +35,11 @@ Bridging the gap between casual mobile sessions and hardcore action mechanics. P
 Currently building out the core combat loop. 
 
 * **Focus:** Perfecting touchscreen swipe detection, directional parry logic, and enemy attack telegraphs in a 3D environment.
+
+## 🎨 Assets
+
+All bundled asset packs are CC0 (public domain):
+
+* **Quaternius:** *Knight*, *Ultimate Monsters*, *Ultimate Stylized Nature*
+* **Kenney:** *roguelikeCharacters*, *roguelikeRpg*
+* **Formats:** Only the glTF versions of the 3D packs are kept (FBX for the Knight). The original Blender/FBX/OBJ sources are available from [quaternius.com](https://quaternius.com); the Kenney packs come from [kenney.nl](https://kenney.nl).
