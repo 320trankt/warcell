@@ -171,6 +171,10 @@ func _on_animation_finished(anim_name: StringName) -> void:
 func is_parry_possible(direction: String) -> bool:
 	return state == State.ATTACK and parry_window_open and direction == current_attack.direction
 
+## True while an attack is incoming — a swipe now that isn't a parry is a failed parry
+func is_attacking() -> bool:
+	return state == State.TELEGRAPH or state == State.ATTACK
+
 func receive_parry(direction: String) -> void:
 	print("[Enemy] PARRY SUCCESS!")
 	parry_succeeded = true
@@ -184,13 +188,14 @@ func receive_parry(direction: String) -> void:
 
 # ── Attack interface (health damage) ──────────────────────────
 
-func receive_attack(_direction: String) -> void:
+## Returns true if the hit landed, false if the enemy is dead or dodged
+func receive_attack(_direction: String) -> bool:
 	if state == State.DEATH:
-		return
+		return false
 	# Check dodge chance (not while stunned)
 	if state != State.STUNNED and randf() < stats.get_dodge_chance():
 		print("[Enemy] Dodged the attack!")
-		return
+		return false
 	var base_dmg := PlayerData.get_attack_damage()
 	var multiplier := STUN_DAMAGE_MULTIPLIER if state == State.STUNNED else NORMAL_DAMAGE_MULTIPLIER
 	var final_dmg := base_dmg * multiplier
@@ -200,6 +205,7 @@ func receive_attack(_direction: String) -> void:
 	])
 	stats_updated.emit()
 	_flash_hit()
+	return true
 
 # ── Visual feedback ───────────────────────────────────────────
 

@@ -23,6 +23,7 @@ var max_health: float = 100.0
 var max_energy: float = 100.0
 var max_posture: float = 100.0
 var energy_regen_rate: float = 5.0  # per second
+var posture_regen_rate: float = 4.0  # per second
 
 # ── Runtime resource values (reset each battle) ──────────────
 var health: float = 100.0
@@ -75,7 +76,7 @@ const RESOURCE_INFO := {
 	"posture": {
 		"display": "Posture",
 		"color": Color(0.9, 0.7, 0.2),
-		"description": "A slowly recharging resource. Failed actions (attacks, parries, dodges) reduce it. Reaching 0 stuns you, leaving you vulnerable. Fully restores after recovering from stun.",
+		"description": "A slowly recharging resource. Mistimed or wrong-direction parries, and attacks the enemy dodges, reduce it. Reaching 0 stuns you, leaving you unable to act. Fully restores after recovering from stun.",
 	},
 }
 
@@ -111,6 +112,7 @@ func _recalculate() -> void:
 	max_energy = 50.0 + stamina * 10.0
 	max_posture = 100.0  # fixed for now, could scale later
 	energy_regen_rate = 3.0 + stamina * 0.4
+	posture_regen_rate = 4.0  # fixed for now
 
 # ── Battle helpers ────────────────────────────────────────────
 func reset_resources() -> void:
@@ -140,6 +142,13 @@ func damage_posture(amount: float) -> void:
 
 func restore_posture() -> void:
 	posture = max_posture
+	resource_changed.emit("posture", posture, max_posture)
+
+func regen_posture(delta: float) -> void:
+	# No regen while stunned — posture only comes back via restore_posture()
+	if is_stunned() or posture >= max_posture:
+		return
+	posture = clampf(posture + posture_regen_rate * delta, 0.0, max_posture)
 	resource_changed.emit("posture", posture, max_posture)
 
 func is_alive() -> bool:
