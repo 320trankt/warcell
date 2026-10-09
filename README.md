@@ -38,8 +38,8 @@ Currently building out the core combat loop.
 
 ## 🎨 Assets
 
-All art is CC0 (public domain), bundled from:
+All bundled asset packs are CC0 (public domain):
 
 * **Quaternius:** *Knight*, *Ultimate Monsters*, *Ultimate Stylized Nature*
 * **Kenney:** *roguelikeCharacters*, *roguelikeRpg*
-* **Formats:** Only the glTF versions of the 3D packs are kept (FBX for the Knight). The original Blender/FBX/OBJ sources are available from [quaternius.com](https://quaternius.com) and [kenney.nl](https://kenney.nl).
+* **Formats:** Only the glTF versions of the 3D packs are kept (FBX for the Knight). The original Blender/FBX/OBJ sources are available from [quaternius.com](https://quaternius.com); the Kenney packs come from [kenney.nl](https://kenney.nl).
